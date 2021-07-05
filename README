@@ -1,0 +1,23 @@
+Docker container to query bugzilla from command line. It uses the python library pybugz. [1]
+
+1. build docker image. ex:
+
+docker build -t pybugz .
+
+2. create a helper shell function to run. ex:
+
+# Replace XX with bugzilla hostname, username and password respectively.
+function bug() {
+	docker run \
+		-e BUG_HOST="XX" \
+		-e BUG_USER="XX" \
+		-e BUG_PASS='XX' \
+		--rm pybugz "$@" \
+	| grep "Title\|Status"
+}
+
+3. run:
+
+bug get 1 # get bugzilla title and status for bug 1
+
+[1] pybugz: https://github.com/williamh/pybugz
